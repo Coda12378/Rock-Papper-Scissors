@@ -29,7 +29,7 @@
 //     }
 // }
 
-
+const ispis_rezultata = document.querySelector("div");
 
 function getComputerChoice(){
     let broj = Math.random();
@@ -44,65 +44,72 @@ function getComputerChoice(){
     }
 }
 
-function getHumanChoice(){
-    return prompt("What do you want rock, paper or scissors?");
-}
+// function getHumanChoice(){
+//     return prompt("What do you want rock, paper or scissors?");
+// }
 
-function playRound(humanChoice, computerChoice){
-    if(humanChoice.toLowerCase()==="rock" && computerChoice.toLowerCase()==="scissors"){
-        alert("You won. Rock beats Scissors");
+function playRound(humanChoice){
+    const computerSelection = getComputerChoice();
+    if(humanChoice.toLowerCase()==="rock" && computerSelection.toLowerCase()==="scissors"){
+        ispis_rezultata.textContent="You won. Rock beats Scissors";
         return "human";
     }
-    else if(humanChoice.toLowerCase()==="rock" && computerChoice.toLowerCase()==="paper"){
-        alert("You lose. Paper beats Rock");
+    else if(humanChoice.toLowerCase()==="rock" && computerSelection.toLowerCase()==="paper"){
+        ispis_rezultata.textContent="You lose. Paper beats Rock";
         return "computer";
     }
-    else if(humanChoice.toLowerCase()==="rock" && computerChoice.toLowerCase()==="rock"){
-        alert("Draw.")
+    else if(humanChoice.toLowerCase()==="rock" && computerSelection.toLowerCase()==="rock"){
+        ispis_rezultata.textContent="Draw.";
     }
-    else if(humanChoice.toLowerCase()==="paper" && computerChoice.toLowerCase()==="rock"){
-        alert("You won. Paper beats Rock");
+    else if(humanChoice.toLowerCase()==="paper" && computerSelection.toLowerCase()==="rock"){
+        ispis_rezultata.textContent="You won. Paper beats Rock";
         return "human";
     }
-    else if(humanChoice.toLowerCase()==="paper" && computerChoice.toLowerCase()==="scissors"){
-        alert("You lose. Scissors beats Paper");
+    else if(humanChoice.toLowerCase()==="paper" && computerSelection.toLowerCase()==="scissors"){
+        ispis_rezultata.textContent="You lose. Scissors beats Paper";
         return "computer";
     }
-    else if(humanChoice.toLowerCase()==="paper" && computerChoice.toLowerCase()==="paper"){
-        alert("Draw.")
+    else if(humanChoice.toLowerCase()==="paper" && computerSelection.toLowerCase()==="paper"){
+        ispis_rezultata.textContent="Draw.";
     }
-    else if(humanChoice.toLowerCase()==="scissors" && computerChoice.toLowerCase()==="paper"){
-        alert("You won. Scissors beats Paper");
+    else if(humanChoice.toLowerCase()==="scissors" && computerSelection.toLowerCase()==="paper"){
+        ispis_rezultata.textContent="You won. Scissors beats Paper";
         return "human";
     }
-    else if(humanChoice.toLowerCase()==="scissors" && computerChoice.toLowerCase()==="rock"){
-        alert("You lose. Rock beats Scissors");
+    else if(humanChoice.toLowerCase()==="scissors" && computerSelection.toLowerCase()==="rock"){
+        ispis_rezultata.textContent="You lose. Rock beats Scissors";
         return "computer";
     }
     else{
-        alert("Draw.");
+        ispis_rezultata.textContent="Draw.";
     } 
 }
 
 
 function playGame(){
+    let gameOver = false;
     let humanScore = 0;
     let computerScore = 0;
-    for(let i=0;i<5;i++){
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
-        sta = playRound(humanSelection,computerSelection);
-        if(sta === "human"){
-            humanScore+=1;
-        }else if(sta === "computer"){
-            computerScore+=1;
-        }
-    }
-    if(humanScore>computerScore){
-        console.log("YOU WON. "+humanScore+":"+computerScore);
-    }else{
-        console.log("YOU LOST. "+humanScore+":"+computerScore);
-    }
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach((button)=>{
+        button.addEventListener("click",()=>{
+            if (gameOver) return;
+            rezultat = playRound(button.getAttribute("class"));
+            if(rezultat === "human"){
+                humanScore+=1;
+            }else if(rezultat === "computer"){
+                computerScore+=1;
+            }
+
+            if(humanScore===5){
+                ispis_rezultata.textContent = `YOU WON. ${humanScore}:${computerScore}`;
+                gameOver = true;
+            }else if(computerScore===5){
+                ispis_rezultata.textContent=`YOU LOST. ${humanScore}:${computerScore}`;
+                gameOver = true;
+            }
+        });
+    });
 }
 
 playGame();
